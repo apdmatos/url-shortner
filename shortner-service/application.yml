@@ -1,0 +1,47 @@
+spring.application:
+  name: url-shortner-service
+
+server:
+  port: 8080
+  jetty:
+    max-threads: ${SERVER_WORKER_THREADS:1810} # MAX_WORKER_THREADS = 1810
+    min-threads: 256
+    queued-requests: 256
+    thread-idle-timeout: 15000   # time (ms) a connection can be idle before it is closed
+    termination-grace-period: ${TERMINATION_GRACE_PERIOD_SECONDS:65}
+    acceptors: 3
+    selectors: 25
+
+app-deployment:
+  baseUrl: http://localhost:8080/
+
+cassandra:
+  migrationEnabled: ${CASSANDRA_MIGRATION_ENABLED:true}
+  contactPoints: ${CASSANDRA_HOSTS:localhost}
+  port: 9042
+  username: ${CASSANDRA_USERNAME:}
+  password: ${CASSANDRA_PASSWORD}
+  keyspace: ${CASSANDRA_KEYSPACE:url_shortner_local}
+  consistencyLevel: ${CASSANDRA_CONSISTENCY_LEVEL:local_quorum}
+  localDc: ${CASSANDRA_LOCAL_DC:datacenter1}
+  constantReconnectionDelayMs: ${CASSANDRA_CONSTANT_RECONNECTION_DELAY_MS:5000}
+  connectionTimeoutMs: ${CASSANDRA_CONNECTION_TIMEOUT_MS:1000}
+  socketReadTimeoutMs: ${CASSANDRA_SOCKET_READ_TIMEOUT_MS:1000}
+  poolWaitTimeoutMs: ${CASSANDRA_POOL_WAIT_TIMEOUT_MS:250}
+  poolMinConnections: ${CASSANDRA_POOL_MIN_CONNECTIONS:2}
+  poolMaxConnections: ${CASSANDRA_POOL_MAX_CONNECTIONS:4}
+  locking:
+    pollingInterval: 500
+    timeout: 60000
+  schemaPath: /schema/common
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      exposure:
+        include: health, prometheus
+  endpoint:
+    shutdown:
+      enabled: false

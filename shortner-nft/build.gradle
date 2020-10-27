@@ -1,0 +1,16 @@
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'scala'
+apply plugin: 'application'
+
+dependencies {
+    compile 'com.bskyb.internettv.cirrus:gatling-commons_2.12:1.6.0'
+    compile 'org.yaml:snakeyaml:1.26'
+    compile 'net.logstash.logback:logstash-logback-encoder:4.11'
+}

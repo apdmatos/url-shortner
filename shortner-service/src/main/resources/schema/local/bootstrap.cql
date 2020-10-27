@@ -1,0 +1,1 @@
+CREATE KEYSPACE url_shortner_local WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};

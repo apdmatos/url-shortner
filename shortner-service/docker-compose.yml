@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  cassandra:
+    image: cassandra:3
+    ports:
+      - "9042:9042"
+
+  cassandra-init:
+    image: cassandra:3
+    depends_on:
+      - cassandra
+    volumes:
+      - ./src/main/resources/schema/local:/scripts
+    command: /bin/bash -c "sleep 30 && echo loading cassandra scritps && cqlsh cassandra -f /scripts/initialize.cql && cqlsh cassandra -f /scripts/bootstrap.cql"

@@ -1,0 +1,55 @@
+version: '3'
+services:
+
+  cassandra:
+    image: cassandra:3
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+
+  cassandra-init:
+    image: cassandra:3
+    depends_on:
+      - cassandra
+    volumes:
+      - ./shortner-service/src/main/resources/schema/local:/scripts
+    command: /bin/bash -c "sleep 30 && echo loading cassandra scritps && cqlsh cassandra -f /scripts/initialize.cql && cqlsh cassandra -f /scripts/bootstrap.cql"
+
+  prometheus:
+    build: prometheus
+    links:
+      - service
+    ports:
+      - "9090:9090"
+    environment:
+      - SERVICE_HOST=service:8081
+
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+#      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+    links:
+      - prometheus
+    restart: always
+
+  service:
+    build: shortner-service
+    depends_on:
+      - cassandra
+      - cassandra-init
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    links:
+      - cassandra
+    environment:
+      - CASSANDRA_HOSTS=cassandra
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}

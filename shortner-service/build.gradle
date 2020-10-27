@@ -1,0 +1,55 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+repositories {
+	mavenCentral()
+	jcenter()
+}
+
+configurations {
+	all*.exclude module: 'spring-boot-starter-tomcat'
+	all*.exclude group: 'org.apache.tomcat.embed'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
+	implementation 'org.projectlombok:lombok:1.18.16'
+	annotationProcessor 'org.projectlombok:lombok:1.18.16'
+	implementation 'org.springframework.boot:spring-boot-starter-jetty'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'com.datastax.cassandra:cassandra-driver-core:3.7.0'
+	implementation group: 'uk.sky', name: 'cqlmigrate', version: '0.9.9'
+	implementation group: 'io.dropwizard.metrics', name: 'metrics-core', version: '3.1.4'
+	implementation "io.prometheus:simpleclient_common:0.6.0"
+	implementation "io.prometheus:simpleclient:0.6.0"
+	implementation "io.prometheus:simpleclient_servlet:0.6.0"
+	implementation "io.prometheus:simpleclient_dropwizard:0.6.0"
+	implementation "io.prometheus:simpleclient_hotspot:0.6.0"
+	implementation "io.prometheus:simpleclient_spring_boot:0.6.0"
+	implementation "io.prometheus:simpleclient_spring_web:0.6.0"
+	implementation "io.prometheus:simpleclient_httpserver:0.6.0"
+
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.3.4.RELEASE'
+	implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
+
+
+
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
+}
+
+bootRun {
+	environment 'DEPLOYMENT_ENVIRONMENT', 'local'
+}
+
+test {
+	useJUnitPlatform()
+}
