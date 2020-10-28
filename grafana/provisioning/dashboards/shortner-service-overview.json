@@ -122,14 +122,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(request_counter{status=~\"2.*|3.*|404\"}[1m]))>0",
+          "expr": "sum(rate(request_counter{status=~\"2.*|3.*|404\"}[5m]))>0",
           "hide": false,
           "interval": "",
           "legendFormat": "Success responses",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(request_counter{status!~\"2.*|3.*|404|5.*\"}[1m]))",
+          "expr": "sum(rate(request_counter{status!~\"2.*|3.*|404|5.*\"}[5m]))",
           "hide": false,
           "instant": false,
           "interval": "",
@@ -137,7 +137,7 @@
           "refId": "B"
         },
         {
-          "expr": "sum(rate(request_counter{status=~\"5.*\"}[1m]))>0",
+          "expr": "sum(rate(request_counter{status=~\"5.*\"}[5m]))>0",
           "interval": "",
           "legendFormat": "5xx responses",
           "refId": "C"
@@ -291,21 +291,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.99, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p99",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.95, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.75, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.75, sum(rate(application_requests_latency_bucket{path=\"/{code:.*}\", method=\"GET\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p75",
@@ -403,21 +403,21 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile(0.99, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.99, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p99",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile(0.95, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.95, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p95",
           "refId": "B"
         },
         {
-          "expr": "histogram_quantile(0.75, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[2m])) by(le, path))",
+          "expr": "histogram_quantile(0.75, sum(rate(application_requests_latency_bucket{path=\"/\", method=\"POST\"}[5m])) by(le, path))",
           "hide": false,
           "interval": "",
           "legendFormat": "p75",

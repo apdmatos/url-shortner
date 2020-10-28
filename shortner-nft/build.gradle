@@ -2,15 +2,56 @@
 group 'org.example'
 version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
 
 apply plugin: 'scala'
 apply plugin: 'application'
 
+ext {
+    runId = project.hasProperty('runId') ? project.getProperty('runId') : UUID.randomUUID()
+
+    extendedDurationInSeconds = 25600
+    rollingDeploymentDurationInSeconds = 3000
+    pipelineDurationInSeconds = 600
+}
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
-    compile 'com.bskyb.internettv.cirrus:gatling-commons_2.12:1.6.0'
+    compile group: 'io.gatling', name: 'gatling-core', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-http', version: '3.4.1'
     compile 'org.yaml:snakeyaml:1.26'
     compile 'net.logstash.logback:logstash-logback-encoder:4.11'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.11.0-M1'
+    compile group: 'io.gatling', name: 'gatling-app', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-charts', version: '2.2.5'
+    compile group: 'io.gatling.highcharts', name: 'gatling-charts-highcharts', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-test-framework', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-recorder', version: '3.4.1'
+    compile group: 'io.gatling', name: 'jsonpath_2.12', version: '0.7.0'
+    compile group: 'io.gatling', name: 'gatling-charts', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-commons', version: '3.4.1'
+    compile group: 'io.gatling', name: 'gatling-metrics', version: '2.3.1'
+
+}
+
+task runNft(type: JavaExec, group: 'verification') {
+    dependsOn testClasses
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'io.gatling.app.Gatling'
+
+    jvmArgs '-Dlogger=console'
+    jvmArgs '-DassertResults=true'
+    jvmArgs '-Xmx512m'
+    jvmArgs '-Dgatling.http.enableGA=false'
+    jvmArgs '-Djava.net.preferIPv4Stack=true'
+    jvmArgs "-DrunId=$runId"
+    jvmArgs '-XX:MaxMetaspaceSize=128m'
+
+    maxHeapSize = "2G"
+
+    args '-bf', 'build/classes/scala/main'
+    args '-rf', 'results'
+    args '-s', 'simulations.NftTests'
 }
