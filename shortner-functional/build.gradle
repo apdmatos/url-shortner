@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 group 'org.example'
@@ -11,6 +10,32 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation "org.springframework.boot:spring-boot-starter-test:2.0.1.RELEASE"
+    testImplementation 'org.springframework.boot:spring-boot-starter-web:2.0.1.RELEASE'
+    testImplementation 'commons-beanutils:commons-beanutils:1.9.2'
+    testImplementation "io.cucumber:cucumber-java:6.8.0"
+    testImplementation "io.cucumber:cucumber-junit:6.8.0"
+    testImplementation "io.cucumber:cucumber-spring:6.8.0"
+    testImplementation "io.cucumber:cucumber-jvm:6.8.0"
+    testImplementation "io.cucumber:cucumber-core:6.8.0"
+    testImplementation 'org.junit.platform:junit-platform-commons:1.5.2'
+    testCompile platform("org.spockframework:spock-bom:2.0-M1-groovy-2.5")
+    testImplementation 'net.masterthought:cucumber-reporting:3.7.0'
+    testImplementation 'io.rest-assured:rest-assured:3.1.0'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+}
+
+
+test {
+    testLogging.exceptionFormat('FULL')
+    outputs.upToDateWhen { false }
+    testLogging.showStandardStreams = false
+
+    doFirst {
+        systemProperty 'spring.profiles.active', System.getProperty('spring.profiles.active')
+        systemProperty 'cucumber.options', System.getProperty('cucumber.options')
+    }
 }

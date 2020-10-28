@@ -5,6 +5,7 @@ ADD src/main/resources/schema /schema
 ADD build/libs/shortner-service-0.0.1-SNAPSHOT.jar /shortner-service.jar
 ADD application.yml /
 
+ENV DEPLOYMENT_ENVIRONMENT=release
 EXPOSE 8080
 EXPOSE 8081
 

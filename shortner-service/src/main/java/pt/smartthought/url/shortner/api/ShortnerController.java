@@ -39,7 +39,7 @@ public class ShortnerController {
 
         ShortUrl shorUrl = repository.get(uuid);
         if(shorUrl != null) {
-            response.addHeader(HttpHeaders.LOCATION, "https://www.google.com");
+            response.addHeader(HttpHeaders.LOCATION, shorUrl.getOriginalUrl());
             return new ResponseEntity<>(HttpStatus.FOUND);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

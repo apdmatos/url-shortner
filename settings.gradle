@@ -3,5 +3,4 @@ include 'shortner-functional'
 include 'shortner-nft'
 include 'prometheus'
 include 'grafana'
-include 'dashboards'
 
