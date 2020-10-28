@@ -1,5 +1,5 @@
 # url-shortner
-Implements a microservice to return a short url
+Implements a microservice to return a short url and when accessed the short url redirects the user back the the original url.
 
 ## Architecture
 
